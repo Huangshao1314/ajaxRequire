@@ -36,7 +36,7 @@ ajaxRequire(['./A.json', './B.json'], function(A, B) {
 
 项目开发中，经常会遇到某些操作会依赖两个或多个接口的返回值。
 
-通常我们可能是这样：
+通常我们可能是这样
 
 ```js
 $.getJSON('http://xxx.com/api/getA', function(AData) {
