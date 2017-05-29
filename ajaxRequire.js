@@ -1,5 +1,5 @@
 /*!
- * ajaxRequire v1.0.1
+ * ajaxRequire v1.0.2
  * 并发 ajax 请求
  *
  * (c) 2014-2017 Junjie.Bai
@@ -31,8 +31,10 @@
      *                                                  如果是单个请求，可直接传入 url 字符串。
      *                                                  如果请求需要配置具体的 ajax 参数，则传入一个配置对象。对象参数详见 jQuery.ajax() 的参数文档。
      *                                                  如果是多个请求，则传入这些请求 url 字符串或者 ajax 配置对象所组成的数组。
-     * @param  {Function}                callback       所有 Ajax 请求就绪后的回调
-     * @param  {Function}                errorCallback  Ajax 请求失败后的回调，会将错误信息作为参数传入。如果该参数传入一个对象，则会被视为 commonParams。
+     * @param  {Function}                callback       所有 Ajax 请求就绪后的回调，并将请求结果作为参数按请求顺数传入。
+     *                                                  如果该参数传入一个对象，则会被视为 commonParams。
+     * @param  {Function}                errorCallback  Ajax 请求失败后的回调，会将错误信息作为参数传入。
+     *                                                  如果该参数传入一个对象，则会被视为 commonParams。
      * @param  {Object}                  commonParams   公共 Ajax 配置参数，将会应用在该次调用的所有 ajax 请求上，但会被每个 ajax 请求单独配置的参数覆盖。
      */
     function ajaxRequire(reqArr, callback, errorCallback, commonParams) {
@@ -40,7 +42,11 @@
             reqArr = [reqArr];
         }
 
-        if ($.isPlainObject(errorCallback)) {
+        if ($.isPlainObject(callback)) {
+            commonParams = callback;
+            callback = null;
+            errorCallback = null;
+        } else if ($.isPlainObject(errorCallback)) {
             commonParams = errorCallback;
             errorCallback = null;
         }
